@@ -30,8 +30,11 @@ async def async_setup_entry(
     """Create the `button` entities for each device."""
     hub: AmbientikaHub = hass.data[DOMAIN][entry.entry_id]
 
-    # TODO: should we not mount the slave devices?
-    async_add_entities((FilterResetButton(device, hub) for device in hub.devices), True)
+    entities = []
+    for device in hub.devices:
+        entities.append(FilterResetButton(device, hub))
+
+    async_add_entities(entities, True)
 
 
 class FilterResetButton(ButtonEntity):
@@ -48,11 +51,11 @@ class FilterResetButton(ButtonEntity):
         """Initialize the button."""
         self._device = device
         self._hub = hub
-        self._attr_unique_id = f"{self._device.name}_filter_reset"
+        self._attr_unique_id = f"{self._device.serial_number}_filter_reset"
 
     @property
     def device_info(self):
-        # TODO: move this to a common base class shared with climate.py
+        # TODO: move this to a common base class shared with other entity files
         """Return information to link this entity with the correct device."""
         return {
             "identifiers": {(DOMAIN, self._device.serial_number)},

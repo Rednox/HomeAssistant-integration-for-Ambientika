@@ -24,7 +24,61 @@
         "name": "Humidity Alarm"
       }
     },
+    "button": {
+      "filter_reset": {
+        "name": "Reset Filter"
+      }
+    },
+    "select": {
+      "light_sensor_level": {
+        "name": "Light Sensor Level",
+        "state": {
+          "Off": "Off",
+          "Low": "Low",
+          "Medium": "Medium"
+        }
+      },
+      "fan_speed": {
+        "name": "Fan Speed",
+        "state": {
+          "Low": "Low",
+          "Medium": "Medium",
+          "High": "High"
+        }
+      },
+      "operating_mode": {
+        "name": "Operating Mode",
+        "state": {
+          "Smart": "Smart",
+          "Auto": "Auto",
+          "ManualHeatRecovery": "Manual Heat Recovery",
+          "Night": "Night",
+          "AwayHome": "Away Home",
+          "Surveillance": "Surveillance",
+          "TimedExpulsion": "Timed Expulsion",
+          "Expulsion": "Expulsion",
+          "Intake": "Intake",
+          "MasterSlaveFlow": "Master Slave Flow",
+          "SlaveMasterFlow": "Slave Master Flow",
+          "Off": "Off"
+        }
+      },
+      "humidity_level": {
+        "name": "Humidity Level",
+        "state": {
+          "Dry": "Dry",
+          "Normal": "Normal",
+          "Moist": "Moist"
+        }
+      }
+    },
     "sensor": {
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
       "air_quality": {
         "name": "Air Quality",
         "state": {
@@ -42,6 +96,18 @@
           "medium": "Medium",
           "good": "Good"
         }
+      },
+      "light_sensor_level_state": {
+        "name": "Light Sensor Level State"
+      },
+      "fan_speed_state": {
+        "name": "Fan Speed State"
+      },
+      "operating_mode_state": {
+        "name": "Operating Mode State"
+      },
+      "humidity_level_state": {
+        "name": "Humidity Level State"
       }
     }
   }

@@ -16,7 +16,7 @@ from .hub import AmbientikaHub
 PLATFORMS: list[Platform] = [
     Platform.BUTTON,
     Platform.BINARY_SENSOR,
-    Platform.CLIMATE,
+    Platform.SELECT,
     Platform.SENSOR,
 ]
 
@@ -43,7 +43,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Handle removal of an entry."""
     if unloaded := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        hass.data[DOMAIN].pop(entry.entry_id)
+        hub = hass.data[DOMAIN].pop(entry.entry_id)
+        await hub.async_unload()
     return unloaded
 
 

@@ -24,7 +24,61 @@
         "name": "Luftfeuchte Alarm"
       }
     },
+    "button": {
+      "filter_reset": {
+        "name": "Filter zurücksetzen"
+      }
+    },
+    "select": {
+      "light_sensor_level": {
+        "name": "Lichtsensor Niveau",
+        "state": {
+          "Off": "Aus",
+          "Low": "Niedrig",
+          "Medium": "Mittel"
+        }
+      },
+      "fan_speed": {
+        "name": "Lüftergeschwindigkeit",
+        "state": {
+          "Low": "Niedrig",
+          "Medium": "Mittel",
+          "High": "Hoch"
+        }
+      },
+      "operating_mode": {
+        "name": "Betriebsmodus",
+        "state": {
+          "Smart": "Intelligent",
+          "Auto": "Automatik",
+          "ManualHeatRecovery": "Manuelle Wärmerückgewinnung",
+          "Night": "Nacht",
+          "AwayHome": "Abwesend",
+          "Surveillance": "Überwachung",
+          "TimedExpulsion": "Zeitgesteuerte Abluft",
+          "Expulsion": "Abluft",
+          "Intake": "Zuluft",
+          "MasterSlaveFlow": "Master-Slave Luftstrom",
+          "SlaveMasterFlow": "Slave-Master Luftstrom",
+          "Off": "Aus"
+        }
+      },
+      "humidity_level": {
+        "name": "Luftfeuchtigkeitsniveau",
+        "state": {
+          "Dry": "Trocken",
+          "Normal": "Normal",
+          "Moist": "Feucht"
+        }
+      }
+    },
     "sensor": {
+      "temperature": {
+        "name": "Temperatur"
+      },
+      "humidity": {
+        "name": "Luftfeuchtigkeit"
+      },
       "air_quality": {
         "name": "Luftqualität",
         "state": {
@@ -42,6 +96,18 @@
           "medium": "mittel",
           "good": "gut"
         }
+      },
+      "light_sensor_level_state": {
+        "name": "Lichtsensor Niveau Status"
+      },
+      "fan_speed_state": {
+        "name": "Lüftergeschwindigkeit Status"
+      },
+      "operating_mode_state": {
+        "name": "Betriebsmodus Status"
+      },
+      "humidity_level_state": {
+        "name": "Luftfeuchtigkeitsniveau Status"
       }
     }
   }

@@ -6,6 +6,14 @@ from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)
 
+
+class AmbientikaApiClientError(Exception):
+    """Exception to indicate a general API error."""
+
+
+class AmbientikaApiClientAuthenticationError(AmbientikaApiClientError):
+    """Exception to indicate an authentication error."""
+
 NAME = "Ambientika"
 DOMAIN = "ambientika"
 VERSION = "1.0.0"
