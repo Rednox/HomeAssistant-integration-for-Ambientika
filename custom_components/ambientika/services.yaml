@@ -1,0 +1,39 @@
+sync_zones:
+  name: Synchronize Zones
+  description: Manually trigger synchronization between Ambientika zones and Home Assistant areas/floors
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: The configuration entry ID to sync zones for (optional - will sync all if not provided)
+      required: false
+      selector:
+        text:
+    force_resync:
+      name: Force Full Resync
+      description: Force a complete resynchronization even if zones appear to be up to date
+      default: false
+      selector:
+        boolean:
+    create_missing_floors:
+      name: Create Missing Floors
+      description: Create Home Assistant floors for Ambientika houses if they don't exist
+      default: true
+      selector:
+        boolean:
+    create_missing_areas:
+      name: Create Missing Areas
+      description: Create Home Assistant areas for Ambientika zones if they don't exist
+      default: true
+      selector:
+        boolean:
+
+get_zone_status:
+  name: Get Zone Status
+  description: Get the current status of zone synchronization
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: The configuration entry ID to get status for (optional - will get all if not provided)
+      required: false
+      selector:
+        text:

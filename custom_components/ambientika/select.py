@@ -3,12 +3,13 @@
 References:
  - https://developers.home-assistant.io/docs/core/entity/select
  - https://app.ambientika.eu:4521/swagger/index.html
+
 """
 
 from __future__ import annotations
 
 import asyncio
-from ambientika_py import Device, DeviceMode, LightSensorLevel, FanSpeed, OperatingMode, HumidityLevel
+from ambientika_py import Device, LightSensorLevel, FanSpeed, OperatingMode, HumidityLevel
 from returns.result import Failure, Success
 
 from homeassistant.components.select import SelectEntity
@@ -39,6 +40,10 @@ async def async_setup_entry(
             OperatingModeSelect(hub, device),
             HumidityLevelSelect(hub, device),
         ])
+
+    # Add zone master select entities
+    from .zone_master_select import async_setup_entry as setup_zone_master_selects
+    await setup_zone_master_selects(hass, entry, async_add_entities)
 
     async_add_entities(entities)
 
@@ -79,7 +84,9 @@ class LightSensorLevelSelect(CoordinatorEntity, SelectEntity):
         # Find our device in the coordinator's data
         for device in self.coordinator.data:
             if device.serial_number == self._serial:
-                return True
+                # Only enable select entities for master devices
+                device_role = getattr(device, 'role', '').lower()
+                return device_role == 'master'
         return False
 
     @property
@@ -196,7 +203,7 @@ class LightSensorLevelSelect(CoordinatorEntity, SelectEntity):
                 LOGGER.debug(f"Successfully set light sensor level to {option} for device {self._serial}")
 
                 # CRITICAL FIX: Wait for device state to propagate before refreshing
-                LOGGER.debug(f"LightSensorLevelSelect: Waiting 3 seconds for device state to propagate...")
+                LOGGER.debug("LightSensorLevelSelect: Waiting 3 seconds for device state to propagate...")
                 await asyncio.sleep(3)
 
                 # Invalidate cache and force coordinator refresh to update the UI
@@ -209,7 +216,7 @@ class LightSensorLevelSelect(CoordinatorEntity, SelectEntity):
             elif isinstance(result, Failure):
                 error_msg = str(result.failure())
                 LOGGER.error(f"Failed to set light sensor level to {option} for device {self._serial}: {error_msg}")
-        except KeyError as e:
+        except KeyError:
             LOGGER.error(f"Invalid light sensor level option: {option}")
         except Exception as e:
             LOGGER.error(f"Exception when setting light sensor level to {option} for device {self._serial}: {e}")
@@ -251,7 +258,9 @@ class FanSpeedSelect(CoordinatorEntity, SelectEntity):
         # Find our device in the coordinator's data
         for device in self.coordinator.data:
             if device.serial_number == self._serial:
-                return True
+                # Only enable select entities for master devices
+                device_role = getattr(device, 'role', '').lower()
+                return device_role == 'master'
         return False
 
     @property
@@ -405,7 +414,7 @@ class FanSpeedSelect(CoordinatorEntity, SelectEntity):
                 )
 
                 # CRITICAL FIX: Wait for device state to propagate before refreshing
-                LOGGER.debug(f"FanSpeedSelect: Waiting 3 seconds for device state to propagate...")
+                LOGGER.debug("FanSpeedSelect: Waiting 3 seconds for device state to propagate...")
                 await asyncio.sleep(3)
 
                 # Invalidate cache and request a coordinator update to refresh the state
@@ -475,7 +484,9 @@ class OperatingModeSelect(CoordinatorEntity, SelectEntity):
         # Find our device in the coordinator's data
         for device in self.coordinator.data:
             if device.serial_number == self._serial:
-                return True
+                # Only enable select entities for master devices
+                device_role = getattr(device, 'role', '').lower()
+                return device_role == 'master'
         return False
 
     @property
@@ -612,7 +623,7 @@ class OperatingModeSelect(CoordinatorEntity, SelectEntity):
                 )
 
                 # CRITICAL FIX: Wait for device state to propagate before refreshing
-                LOGGER.debug(f"OperatingModeSelect: Waiting 3 seconds for device state to propagate...")
+                LOGGER.debug("OperatingModeSelect: Waiting 3 seconds for device state to propagate...")
                 await asyncio.sleep(3)
 
                 # Invalidate cache and request a coordinator update to refresh the state
@@ -682,7 +693,9 @@ class HumidityLevelSelect(CoordinatorEntity, SelectEntity):
         # Find our device in the coordinator's data
         for device in self.coordinator.data:
             if device.serial_number == self._serial:
-                return True
+                # Only enable select entities for master devices
+                device_role = getattr(device, 'role', '').lower()
+                return device_role == 'master'
         return False
 
     @property
@@ -813,7 +826,7 @@ class HumidityLevelSelect(CoordinatorEntity, SelectEntity):
                 )
 
                 # CRITICAL FIX: Wait for device state to propagate before refreshing
-                LOGGER.debug(f"HumidityLevelSelect: Waiting 3 seconds for device state to propagate...")
+                LOGGER.debug("HumidityLevelSelect: Waiting 3 seconds for device state to propagate...")
                 await asyncio.sleep(3)
 
                 # Invalidate cache and request a coordinator update to refresh the state

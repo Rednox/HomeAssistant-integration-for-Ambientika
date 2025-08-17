@@ -2,10 +2,22 @@
   "config": {
     "step": {
       "user": {
-        "description": "If you need help with the configuration have a look here: https://github.com/ambientika/HomeAssistant-integration-for-Ambientika",
+        "description": "Enter your Ambientika credentials. If you need help with the configuration have a look here: https://github.com/ambientika/HomeAssistant-integration-for-Ambientika",
         "data": {
           "username": "Username",
           "password": "Password"
+        }
+      },
+      "zone_sync": {
+        "title": "Zone Synchronization Settings",
+        "description": "Configure how Ambientika zones and rooms are synchronized with Home Assistant.",
+        "data": {
+          "sync_zones_to_floors": "Sync Zones to Floors",
+          "sync_rooms_to_areas": "Sync Rooms to Areas"
+        },
+        "data_description": {
+          "sync_zones_to_floors": "Create Home Assistant floors for Ambientika zones when zones are configured (recommended for multi-zone setups)",
+          "sync_rooms_to_areas": "Create Home Assistant areas for Ambientika rooms (recommended for better device organization)"
         }
       }
     },

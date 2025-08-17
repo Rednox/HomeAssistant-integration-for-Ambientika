@@ -7,10 +7,9 @@ Ambientika API: https://app.ambientika.eu:4521/swagger/index.html.
 import logging
 import asyncio
 import aiohttp
-from typing import Any, Dict, List, Optional
 
 from ambientika_py import authenticate, Device
-from returns.result import Failure, Success
+from returns.result import Failure
 from returns.primitives.exceptions import UnwrapFailedError
 
 from .const import AmbientikaApiClientAuthenticationError, AmbientikaApiClientError, DEFAULT_HOST
@@ -31,7 +30,7 @@ class AmbientikaApiClient:
         self._password = password
         self._host = DEFAULT_HOST
         self._api_client = None
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
         self._connector = aiohttp.TCPConnector(
             limit=5,              # Reduced concurrent connections to avoid overwhelming the server
             limit_per_host=1,     # Only 1 connection per host to reduce server load
@@ -103,7 +102,7 @@ class AmbientikaApiClient:
                     # Successfully set up client, break the retry loop
                     break
 
-                except (aiohttp.ClientError, asyncio.TimeoutError) as e:
+                except (TimeoutError, aiohttp.ClientError) as e:
                     last_error = e
                     retry_count += 1
                     if retry_count < max_retries:
@@ -182,7 +181,7 @@ class AmbientikaApiClient:
         api.post = patched_post
 
 
-    async def async_get_data(self) -> List[Device]:
+    async def async_get_data(self) -> list[Device]:
         """Get all devices from the API.
 
         The devices are flattened. Meaning, the information about rooms and houses is not made available to hass.
@@ -245,7 +244,7 @@ class AmbientikaApiClient:
             raise AmbientikaApiClientError(
                 f"Server timeout: {str(exception)}"
             ) from exception
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             LOGGER.error(f"Request timeout error: {str(exception)}")
             await self._cleanup()  # Force re-auth on next try
             raise AmbientikaApiClientError(

@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-from ambientika_py import Device, DeviceStatus
-from returns.result import Failure, Success
+from ambientika_py import Device
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
